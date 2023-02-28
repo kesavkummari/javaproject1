@@ -1,0 +1,9 @@
+#!/bin/bash
+
+sudo yum install httpd -y
+
+sudo systemctl enable httpd
+
+sudo systemctl restart httpd
+
+echo "Welcome to DevOps" > /var/www/html/index.html
