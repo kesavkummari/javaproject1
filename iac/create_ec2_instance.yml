@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  gather_facts: False
+  vars:
+    instance_name: "example-instance"
+    instance_type: "t2.micro"
+    ami_id: "ami-0c55b159cbfafe1f0"
+    region: "us-east-1"
+    security_group: "sg-0123456789abcdef"
+    subnet_id: "subnet-0123456789abcdef"
+    keypair: "my-keypair"
+  tasks:
+    - name: Create EC2 instance
+      ec2:
+        instance_type: "{{ instance_type }}"
+        image: "{{ ami_id }}"
+        wait: yes
+        region: "{{ region }}"
+        key_name: "{{ keypair }}"
+        group_id: "{{ security_group }}"
+        vpc_subnet_id: "{{ subnet_id }}"
+        assign_public_ip: yes
+        instance_tags:
+          Name: "{{ instance_name }}"
+      register: ec2
+    - name: Print instance info
+      debug:
+        var: ec2.instance_ids[0]
